@@ -44,7 +44,7 @@ public class TileFuelRod extends TileReactorBlock {
             }
         }
 
-        if(worldObj.getTotalWorldTime() % 20 == 19) {
+        if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 20 == 19) {
 
             Random rand = new Random(worldObj.getTotalWorldTime());
 
@@ -55,6 +55,9 @@ public class TileFuelRod extends TileReactorBlock {
 
             heat += activity * f;
             activity -= activity * f;
+
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            markDirty();
         }
     }
 }

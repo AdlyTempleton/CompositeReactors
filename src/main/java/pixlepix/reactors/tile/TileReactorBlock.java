@@ -16,6 +16,14 @@ public abstract class TileReactorBlock extends TileEntity{
     public int heat;
     public int activity;
 
+    public boolean canSendTo(ForgeDirection direction){
+        return true;
+    }
+
+    public boolean canReceiveFrom(ForgeDirection direction){
+        return true;
+    }
+
     @Override
     public void updateEntity() {
         for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
@@ -23,18 +31,22 @@ public abstract class TileReactorBlock extends TileEntity{
             if(adjacentTile instanceof TileReactorBlock) {
                 TileReactorBlock tileReactorBlock = (TileReactorBlock) adjacentTile;
 
-                if (tileReactorBlock.activity < activity) {
-                    int transferredActivity = (int) (.001F * tileReactorBlock.getActivityConductivity() * (activity - tileReactorBlock.activity));
 
-                    tileReactorBlock.activity += transferredActivity;
-                    activity -= transferredActivity;
-                }
+                if(canSendTo(direction) && canReceiveFrom(direction.getOpposite())) {
 
-                if (tileReactorBlock.heat < heat) {
-                    int transferredHeat = (int) (.01F * tileReactorBlock.getHeatConductivity() * (heat - tileReactorBlock.heat));
+                    if (tileReactorBlock.activity < activity) {
+                        int transferredActivity = (int) (.001F * tileReactorBlock.getActivityConductivity() * (activity - tileReactorBlock.activity));
 
-                    tileReactorBlock.heat += transferredHeat;
-                    heat -= transferredHeat;
+                        tileReactorBlock.activity += transferredActivity;
+                        activity -= transferredActivity;
+                    }
+
+                    if (tileReactorBlock.heat < heat) {
+                        int transferredHeat = (int) (.001F * tileReactorBlock.getHeatConductivity() * (heat - tileReactorBlock.heat));
+
+                        tileReactorBlock.heat += transferredHeat;
+                        heat -= transferredHeat;
+                    }
                 }
             }
 

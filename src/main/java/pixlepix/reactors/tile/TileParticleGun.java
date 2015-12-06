@@ -53,13 +53,10 @@ public class TileParticleGun extends TileReactorBlock implements IEnergyReceiver
         storage.setEnergyStored(nbt.getInteger("energy"));
     }
 
+    public void fire() {
 
-    @Override
-    public void updateEntity() {
-        super.updateEntity();
-
-        if(!worldObj.isRemote && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
-            if(activity == 0 && storage.getEnergyStored() > 30000){
+        if(!worldObj.isRemote){
+            if(storage.getEnergyStored() > 30000){
                 storage.setEnergyStored(0);
                 activity = 5000;
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
