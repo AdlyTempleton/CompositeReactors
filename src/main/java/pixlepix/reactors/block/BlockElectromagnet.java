@@ -40,18 +40,20 @@ public class BlockElectromagnet extends ReactorBlock{
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        return side == 1 ? this.top : (side == 0 ? this.top : (side != meta ? this.blockIcon : this.front));
+        return side == 1 ? this.top : (side == 0 ? this.bottom : (side != meta ? this.blockIcon : this.front));
     }
 
     private IIcon top;
     private IIcon front;
+    private IIcon bottom;
 
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister register)
     {
-        this.blockIcon = register.registerIcon("furnace_side");
-        this.front = register.registerIcon("furnace_front_on");
-        this.top = register.registerIcon("furnace_top");
+        this.blockIcon = register.registerIcon("reactors:electromagnet");
+        this.bottom = register.registerIcon("reactors:electromagnetBottom");
+        this.front = register.registerIcon("reactors:electromagnetFront");
+        this.top = register.registerIcon("reactors:electromagnetTop");
     }
 
     public void rotate(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
